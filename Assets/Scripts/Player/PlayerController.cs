@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //ÊÓ½ÇÒÆ¶¯
+        //ï¿½Ó½ï¿½ï¿½Æ¶ï¿½
         mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
         xRotation += mouseY;
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0, yRotation, 0);
         camera.transform.localRotation = Quaternion.Euler(-xRotation, 0, 0);
 
-        //Íæ¼ÒÒÆ¶¯
+        //ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
         inputH = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
         inputV = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
         transform.Translate(new Vector3(inputH, 0, inputV), relativeTo: Space.Self);
