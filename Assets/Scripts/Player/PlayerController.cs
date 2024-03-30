@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float mouseSensitivity;
     private float inputH, inputV;
     public float moveSpeed;
-    public float jumpForce;
+    public float jumpVelocity;
     public Vector3 groundCheckCenter;
     public Vector3 groundCheckSize;
     public LayerMask groundLayer;
@@ -52,7 +52,12 @@ public class PlayerController : MonoBehaviour
         //玩家跳跃
         groundCollider = Physics.OverlapBox(transform.position + groundCheckCenter, groundCheckSize, Quaternion.identity, groundLayer);
         if (Input.GetKeyDown(KeyCode.Space) && groundCollider.Length > 0)
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        {
+            rb.velocity = new Vector3(rb.velocity.x,jumpVelocity,rb.velocity.z);
+            
+        }
+        
+        
     }
 
     private void OnDrawGizmosSelected()
