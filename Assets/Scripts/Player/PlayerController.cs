@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private float inputH, inputV;
     public float moveSpeed;
     public float jumpVelocity;
+    public bool isAir;
     public Vector3 groundCheckCenter;
     public Vector3 groundCheckSize;
     public LayerMask groundLayer;
@@ -51,10 +52,10 @@ public class PlayerController : MonoBehaviour
 
         //玩家跳跃
         groundCollider = Physics.OverlapBox(transform.position + groundCheckCenter, groundCheckSize, Quaternion.identity, groundLayer);
-        if (Input.GetKeyDown(KeyCode.Space) && groundCollider.Length > 0)
+        isAir = groundCollider.Length > 0 ? false : true;
+        if (Input.GetKeyDown(KeyCode.Space) && !isAir)
         {
             rb.velocity = new Vector3(rb.velocity.x,jumpVelocity,rb.velocity.z);
-            
         }
         
         
