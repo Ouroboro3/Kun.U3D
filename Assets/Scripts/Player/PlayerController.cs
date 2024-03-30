@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
         xRotation += mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
+        xRotation = Mathf.Clamp(xRotation, -45, 90);
         yRotation += mouseX;
 
         transform.localRotation = Quaternion.Euler(0, yRotation, 0);
