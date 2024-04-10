@@ -13,6 +13,7 @@ public class TalkUI : MonoBehaviour
     public TalkState curState;
 
     public GameObject DialogueBox;
+    public GameObject QuestionBox;
     public Button Ready;
     public Button Cancel;
 
@@ -105,7 +106,8 @@ public class TalkUI : MonoBehaviour
         UIInit();
         print("开始问答");
         //打开问答界面
-        QuestionEnd();//测试用代码
+        QuestionBox.SetActive(true);
+        //QuestionEnd();//测试用代码
     }
     public void QuitTalking()
     {
