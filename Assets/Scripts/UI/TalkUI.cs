@@ -20,6 +20,7 @@ public class TalkUI : MonoBehaviour
     [SerializeField] private QuestionUI_Test Q_UI;//测试用
     [SerializeField] private Text DialogueText;
     [SerializeField] private Text NameText;
+    [SerializeField] private TextLoader Loader;
 
     private GameObject player;
     private Communication communication;
@@ -34,11 +35,12 @@ public class TalkUI : MonoBehaviour
         player = GameObject.Find("Player");
         if (player == null) print("无Player");
         communication = player?.GetComponent<Communication>();
+        Loader = GetComponent<TextLoader>();
         Q_UI = this.GetComponent<QuestionUI_Test>();
     }
 
     void Update()
-    {
+    {     
         if (curState == TalkState.Introduce)
         {
             if (communication.Talker == null)
@@ -46,58 +48,65 @@ public class TalkUI : MonoBehaviour
                 return;
             }
 
-            if (Input.GetKeyUp(KeyCode.E) && !DialogueBox.activeSelf&&!communication.Talker.finished)
+            if (Input.GetKeyUp(KeyCode.E) && !DialogueBox.activeSelf&&!communication.Talker.finished)//唤起对话
             {
                 DialogueBox.SetActive(true);
                 NameText.text = communication.Talker.NPCName;
                 sentences = communication.Talker.IntroduceDialogue;
-                DialogueText.text = sentences[introIndex];
+                Loader.StartLoading(sentences[introIndex]); 
 
                 player.GetComponent<PlayerController>().enabled = false;
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true;
             }
 
-            if (Input.GetMouseButtonDown(0) && DialogueBox.activeSelf)
+            if (Input.GetMouseButtonDown(0) && DialogueBox.activeSelf)//下一句
             {
-
-                if (introIndex < sentences.Count-1 )
+                if(Loader.curState==TextLoader.loadState.loading)
                 {
-                    introIndex++;
-                    DialogueText.text = sentences[introIndex];
+                    Loader.Accelerate();
                 }
-                else
+                else if (Loader.curState == TextLoader.loadState.waiting)
                 {
-                    Ready.gameObject.SetActive(true);
-                    Cancel.gameObject.SetActive(true);
+                    if (introIndex < sentences.Count - 1)
+                    {
+                        introIndex++;
+                        Loader.StartLoading(sentences[introIndex]);
+                    }
+                    else
+                    {
+                        Ready.gameObject.SetActive(true);
+                        Cancel.gameObject.SetActive(true);
+                    }
                 }
             }
         }
        else if(curState == TalkState.Result) {
-            if (Q_UI.result)
-            {
-                sentences = communication.Talker.SuccessDialogue;
-                communication.Talker.finished = true;
-            }
-            else
-            {
-                sentences = communication.Talker.FailDialogue;
-            }
-        DialogueText.text = sentences[resultIndex];
         if (Input.GetMouseButtonDown(0) && DialogueBox.activeSelf)
             {
 
-                if (resultIndex < sentences.Count-1)
+                if (Loader.curState == TextLoader.loadState.loading)
                 {
-                    print(resultIndex);
-                    resultIndex++;
-                    DialogueText.text = sentences[resultIndex];
+                    Loader.Accelerate();
                 }
-                else
+                else if (Loader.curState == TextLoader.loadState.waiting)
                 {
-                    QuitTalking();
+                    if (resultIndex < sentences.Count - 1)
+                    {
+                        resultIndex++;
+                        Loader.StartLoading(sentences[resultIndex]);
+                    }
+                    else
+                    {
+                        Ready.gameObject.SetActive(true);
+                        Cancel.gameObject.SetActive(true);
+                    }
                 }
             }
+        }
+        if (DialogueBox.activeSelf)
+        {
+            DialogueText.text = new string(Loader.textOutput.ToArray());
         }
     }
 
@@ -122,6 +131,16 @@ public class TalkUI : MonoBehaviour
     {
         curState = TalkState.Result;
         DialogueBox.SetActive(true) ;
+        if (Q_UI.result)
+        {
+            sentences = communication.Talker.SuccessDialogue;
+            communication.Talker.finished = true;
+        }
+        else
+        {
+            sentences = communication.Talker.FailDialogue;
+        }
+        Loader.StartLoading(sentences[0]);
     }
 
     private void UIInit()
