@@ -98,8 +98,7 @@ public class TalkUI : MonoBehaviour
                     }
                     else
                     {
-                        Ready.gameObject.SetActive(true);
-                        Cancel.gameObject.SetActive(true);
+                        QuitTalking();
                     }
                 }
             }
