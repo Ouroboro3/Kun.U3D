@@ -25,12 +25,10 @@ public class TalkUI : MonoBehaviour
     private GameObject player;
     private Communication communication;
     private List<string> sentences;
-    private int introIndex;
     private int resultIndex;
     void Start()
     {
         UIInit();
-        introIndex = 0;
         curState = TalkState.Introduce;
         player = GameObject.Find("Player");
         if (player == null) print("无Player");
@@ -53,7 +51,7 @@ public class TalkUI : MonoBehaviour
                 DialogueBox.SetActive(true);
                 NameText.text = communication.Talker.NPCName;
                 sentences = communication.Talker.IntroduceDialogue;
-                Loader.StartLoading(sentences[introIndex]); 
+                Loader.StartLoading(sentences[communication.Talker.textIndex]); 
 
                 player.GetComponent<PlayerController>().enabled = false;
                 Cursor.lockState = CursorLockMode.Confined;
@@ -68,10 +66,10 @@ public class TalkUI : MonoBehaviour
                 }
                 else if (Loader.curState == TextLoader.loadState.waiting)
                 {
-                    if (introIndex < sentences.Count - 1)
+                    if (communication.Talker.textIndex < sentences.Count - 1)
                     {
-                        introIndex++;
-                        Loader.StartLoading(sentences[introIndex]);
+                        communication.Talker.textIndex++;
+                        Loader.StartLoading(sentences[communication.Talker.textIndex]);
                     }
                     else
                     {

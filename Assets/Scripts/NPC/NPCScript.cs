@@ -5,6 +5,7 @@ using UnityEngine;
 public class NPCScript : MonoBehaviour
 {
     public string NPCName = "no name";
+    public int textIndex = 0;
     public bool finished;
     [SerializeReference] private TextAsset DialogueText;//装对话内容的文件可以放Dialogue里面。
     public List<string> IntroduceDialogue;
