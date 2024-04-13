@@ -16,4 +16,9 @@ public class QuestionUI_Test : MonoBehaviour
         result = true;
         talk.QuestionBox[talk.communication.Talker.Num].SetActive(false);
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
