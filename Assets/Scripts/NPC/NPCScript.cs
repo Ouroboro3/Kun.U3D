@@ -24,6 +24,7 @@ public class NPCScript : MonoBehaviour
             }
 
         }
+        if(parts.Length<2) return ;
         foreach (string ele in parts[1].Split("\n"))
         {
             if (ele.Length>1)
@@ -31,6 +32,7 @@ public class NPCScript : MonoBehaviour
                 SuccessDialogue.Add(ele);
             }
         }
+        if(parts.Length<3) return ;
         foreach (string ele in parts[2].Split("\n"))
         {
             if (ele.Length > 1)
