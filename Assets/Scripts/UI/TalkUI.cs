@@ -13,7 +13,7 @@ public class TalkUI : MonoBehaviour
     public TalkState curState;
 
     public GameObject DialogueBox;
-    public GameObject QuestionBox;
+    public GameObject[] QuestionBox;
     public Button Ready;
     public Button Cancel;
 
@@ -23,7 +23,7 @@ public class TalkUI : MonoBehaviour
     [SerializeField] private TextLoader Loader;
 
     private GameObject player;
-    private Communication communication;
+    public Communication communication;
     private List<string> sentences;
     private int resultIndex;
     void Start()
@@ -112,7 +112,7 @@ public class TalkUI : MonoBehaviour
         UIInit();
         print("开始问答");
         //打开问答界面
-        QuestionBox.SetActive(true);
+        QuestionBox[communication.Talker.Num].SetActive(true);
         //QuestionEnd();//测试用代码
     }
     public void QuitTalking()

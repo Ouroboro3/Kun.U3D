@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NPCScript : MonoBehaviour
 {
+    public int Num;
     public string NPCName = "no name";
     public int textIndex = 0;
     public bool finished;
